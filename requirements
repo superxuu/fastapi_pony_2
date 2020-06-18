@@ -1,1 +1,5 @@
-
+uvicorn
+fastapi
+pony
+pathlib
+starlette
