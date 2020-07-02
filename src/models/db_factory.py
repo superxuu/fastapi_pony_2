@@ -6,6 +6,7 @@ db = Database()
 db.bind(provider=mysql_conf['provider'], host=mysql_conf['host'], user=mysql_conf['user'], passwd=mysql_conf['passwd'],
         db=mysql_conf['db'])
 print('DB_factory')
+set_sql_debug(True)
 
 # class BaseDB(db.Entity):
 #
