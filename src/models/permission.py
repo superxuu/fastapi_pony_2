@@ -11,3 +11,6 @@ class Permission(db.Entity):
     description = Optional(LongStr)
     create_time = Required(datetime, default=datetime.now)
     update_time = Optional(datetime)
+
+    def before_update(self):
+        self.update_time = datetime.now()

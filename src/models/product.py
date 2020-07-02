@@ -10,3 +10,6 @@ class Product(db.Entity):
     description = Optional(str)
     create_time = Required(datetime, default=datetime.now, precision=6)
     update_time = Optional(datetime)
+
+    def before_update(self):
+        self.update_time = datetime.now()

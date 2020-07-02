@@ -4,6 +4,8 @@ from pony.orm import PrimaryKey, Required, Optional, Set, LongStr, select
 from pony.orm.dbapiprovider import StrConverter
 
 from src.models import db
+
+
 #
 #
 # class Role(Enum):
@@ -42,3 +44,6 @@ class Role(db.Entity):
     def get_role_permission(id):
         print('id:', id)
         return select(p.permissions.permission_id for p in Role if p.id == id)
+
+    def before_update(self):
+        self.update_time = datetime.now()

@@ -1,11 +1,10 @@
 from datetime import datetime
 from enum import Enum
 
-from pony.orm import PrimaryKey, Required, Optional, Set, LongStr
+from pony.orm import PrimaryKey, Required, Optional, Set, LongStr, commit
 from pony.orm.dbapiprovider import StrConverter, Converter
 
 from src.models import db
-
 
 
 class State(Enum):
@@ -17,7 +16,7 @@ class StateConverter(StrConverter):
 
     def validate(self, val, obj=None):
         if State(val) not in State:
-        # if not isinstance(val, State):
+            # if not isinstance(val, State):
             raise ValueError('Must be an State.  Got {}'.format(type(val)))
         return val
 
@@ -40,4 +39,7 @@ class User(db.Entity):
     state = Required(State)
     role = Optional(int)
     create_time = Required(datetime, default=datetime.now)
-    update_time = Optional(datetime, precision=6)
+    update_time = Optional(datetime)
+
+    def before_update(self):
+        self.update_time = datetime.now()

@@ -10,7 +10,6 @@ from fastapi.security import (
 )
 from jwt import PyJWTError
 from passlib.context import CryptContext
-from pony.orm.core import Multiset, select
 from pydantic import BaseModel, ValidationError
 from starlette.requests import Request
 from src.models import User, Role, Permission
@@ -43,7 +42,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/user/login",
-    scopes={"me": "Read information about the current user.", "items": "Read items."},
+    # scopes={"me": "Read information about the current user.", "items": "Read items."},
 )
 
 

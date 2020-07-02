@@ -10,7 +10,7 @@ db.generate_mapping(create_tables=True)
 
 
 try:
-    #向user表铺数,管理员账号
+    #向user表铺数,管理员账号,密码：qq123456
     with db_session:
         User(name='xuchao', pwd='$2b$12$ELdmKf.DktXaJbEPZThCgeADWrhvwLZm7WTF3UlbDrfH6ua/tmkG2', email='xuchao@ect888.com', state=1, role=1)
 except TransactionIntegrityError:
