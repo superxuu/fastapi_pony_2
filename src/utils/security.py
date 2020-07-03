@@ -12,7 +12,7 @@ from jwt import PyJWTError
 from passlib.context import CryptContext
 from pydantic import BaseModel, ValidationError
 from starlette.requests import Request
-from src.models import User, Role, Permission
+from src.models import User, Role
 
 # to get a string like this run:
 # openssl rand -hex 32

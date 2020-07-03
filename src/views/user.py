@@ -29,7 +29,7 @@ async def add_user(*, user: UserM, request: Request):
                          role=user.role)
                 else:
                     User(name=user.name, pwd=get_password_hash(user.pwd), state=user.state, role=user.role)
-                commit()
+                # commit()
             # else:
             #     return Response(f'{{"code":0001,"msg":"Role id {user.role} not exist"}}')
         return Response('{"code":0000,"msg":"user add OK"}')
@@ -73,18 +73,22 @@ async def del_user(*, user_name, request: Request):
             dependencies=[Security(get_current_active_user, scopes=['1', '2', '3'])],
             summary="更新一个用户", description="根据用户名称来更新用户的其他信息！")
 async def update_user(*, user: UserM, request: Request):
+    user = user.dict(exclude_unset=True)
+    print(user)
     try:
         with request.pony_session:
-            u = User.get(name=user.name)
+            u = User.get(name=user['name'])
             if not user:
                 return Response(f'{{"code":0001,"msg":"user {user.name} not exist"}}')
-            elif Role[user.role]:
-                u.pwd = get_password_hash(user.pwd)
-                u.email = user.email
-                u.state = user.state
-                u.role = user.role
-                commit()
-                return u.to_dict()
+            if user.get('role') and Role[user.get('role')]:
+                u.role = user['role']
+            if user.get('pwd'):
+                u.pwd = get_password_hash(user['pwd'])
+            if user.get('email'):
+                u.email = user['email']
+            if user.get('state'):
+                u.state = user['state']
+        return u.to_dict()
                 # return Response(f'{{"code":0000,"msg":"user {user.name} update OK", "user":{UserM(**u.to_dict())}}}')
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"user update error: {e}")

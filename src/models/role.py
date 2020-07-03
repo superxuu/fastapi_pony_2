@@ -42,7 +42,7 @@ class Role(db.Entity):
 
     @staticmethod
     def get_role_permission(id):
-        print('id:', id)
+        # print('id:', id)
         return select(p.permissions.permission_id for p in Role if p.id == id)
 
     def before_update(self):
